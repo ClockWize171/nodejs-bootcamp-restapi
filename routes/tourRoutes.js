@@ -9,7 +9,7 @@ const {
     aliasTopTours,
     getTourStats,
     getMontlyPlan } = require('./../controllers/tourController');
-const { tourRouteProtect, tourRouteRestrictTo } = require('./../controllers/authController')
+const { routeProtect, tourRouteRestrictTo } = require('./../controllers/authController')
 
 const router = express.Router();
 
@@ -29,7 +29,7 @@ router
 
 router
     .route('/')
-    .get(tourRouteProtect, getAllTours)
+    .get(routeProtect, getAllTours)
     .post(createTour)
 
 router
@@ -37,7 +37,7 @@ router
     .get(getTourById)
     .patch(updateTour)
     .delete(
-        tourRouteProtect,
+        routeProtect,
         tourRouteRestrictTo('admin', 'lead-guide'),
         deleteTour)
 
