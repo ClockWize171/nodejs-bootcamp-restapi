@@ -51,7 +51,7 @@ exports.getTourById = catchAsync(async (req, res, next) => {
     //     },
     // })
     try {
-        const tour = await Tour.findById(req.params.id);
+        const tour = await Tour.findById(req.params.id)
         res.status(200).json({
             status: 'success',
             data: {
