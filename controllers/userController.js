@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const catchAsync = require('./../utils/catchAsync')
+const factory = require('./handlerFactory')
 const Users = require('../models/userModel')
 const AppError = require('../utils/appError')
 const User = require('../models/userModel')
@@ -55,10 +56,14 @@ exports.updateUser = catchAsync(async (req, res, next) => {
     })
 })
 
-exports.deleteUser = catchAsync(async (req, res, next) => {
+exports.deactivateUser = catchAsync(async (req, res, next) => {
     await User.findByIdAndUpdate(req.user.id, { active: false })
     res.status(204).json({
         status: 'success',
         data: null,
     })
 })
+
+
+// IMPORTED DELETE FUNCTION BY FACTORY HANDLER
+exports.deleteUser = factory.deleteOne(User)

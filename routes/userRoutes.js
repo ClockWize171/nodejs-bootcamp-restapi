@@ -4,7 +4,8 @@ const {
     createUser,
     getUser,
     updateUser,
-    deleteUser,
+    deactivateUser,
+    deleteUser
 } = require('./../controllers/userController')
 const {
     signUp,
@@ -23,7 +24,7 @@ router.patch('/update_password', routeProtect, updatePassword)
 router.post('/forgot_password', forgotPassword)
 router.patch('/reset_password/:token', resetPassword)
 router.patch('/update_user', routeProtect, updateUser)
-router.delete('/delete_user', routeProtect, deleteUser)
+router.delete('/deactivate', routeProtect, deactivateUser)
 
 router
     .route('/')
@@ -33,5 +34,7 @@ router
 router
     .route('/:id')
     .get(getUser)
+    .delete(deleteUser)
+
 
 module.exports = router;

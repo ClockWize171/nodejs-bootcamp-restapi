@@ -97,7 +97,7 @@ exports.routeProtect = catchAsync(async (req, res, next) => {
     next();
 });
 
-exports.tourRouteRestrictTo = (...roles) => {
+exports.routeRestrictTo = (...roles) => {
     return (req, res, next) => {
         // roles ['admin', 'lead-guide']. role=user
         if (!roles.includes(req.user.role)) {
