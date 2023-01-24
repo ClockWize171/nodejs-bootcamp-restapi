@@ -8,7 +8,9 @@ const {
     checkId,
     aliasTopTours,
     getTourStats,
-    getMontlyPlan } = require('./../controllers/tourController');
+    getMontlyPlan,
+    getTourWithin,
+    getDistances } = require('./../controllers/tourController');
 const { routeProtect, routeRestrictTo } = require('./../controllers/authController')
 const reviewRouter = require('../routes/reviewRoutes')
 
@@ -31,8 +33,18 @@ router
     );
 
 router
+    .route('/tour-within/:distance/center/:latlng/unit/:unit')
+    .get(getTourWithin)
+// tour-within?distance=223&center=-40,455&unit=mi
+// tour-within/distance/223/center/-40,45/unit/mi
+
+router
     .route('/top-5-cheap')
     .get(aliasTopTours, getAllTours)
+
+router
+    .route('/distances/:latlng/unit/:unit')
+    .get(getDistances)
 
 router
     .route('/')
