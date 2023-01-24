@@ -24,7 +24,11 @@ router
 
 router
     .route('/monthly-plan/:year')
-    .get(getMontlyPlan)
+    .get(
+        routeProtect,
+        routeRestrictTo('admin', 'lead-guide', 'guide'),
+        getMontlyPlan
+    );
 
 router
     .route('/top-5-cheap')
@@ -33,15 +37,24 @@ router
 router
     .route('/')
     .get(routeProtect, getAllTours)
-    .post(createTour)
+    .post(
+        routeProtect,
+        routeRestrictTo('admin', 'lead-guide'),
+        createTour
+    );
 
 router
     .route('/:id')
     .get(getTourById)
-    .patch(updateTour)
+    .patch(
+        routeProtect,
+        routeRestrictTo('admin', 'lead-guide'),
+        updateTour
+    )
     .delete(
         routeProtect,
         routeRestrictTo('admin', 'lead-guide'),
-        deleteTour)
+        deleteTour
+    );
 
 module.exports = router;

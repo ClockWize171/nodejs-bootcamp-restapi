@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 const catchAsync = require('./../utils/catchAsync')
 const factory = require('./handlerFactory')
-const Users = require('../models/userModel')
 const AppError = require('../utils/appError')
 const User = require('../models/userModel')
 
@@ -13,30 +12,21 @@ const filterObj = (obj, ...allowFileds) => {
     return newObj;
 }
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-    const users = await Users.find()
-    res.status(200).json({
-        status: 'success',
-        results: users.length,
-        data: {
-            users
-        }
-    })
-})
-
 exports.createUser = (req, res) => {
-    res.status(500).json({
-        status: 'Internal Server Error',
-        message: 'Not Defined Yet!'
+    res.status(501).json({
+        status: 'Forbidden',
+        message: 'Please use /signup instead'
     })
 }
 
-exports.getUser = (req, res) => {
-    res.status(500).json({
-        status: 'Internal Server Error',
-        message: 'Not Defined Yet!'
-    })
-}
+exports.getMe = (req, res, next) => {
+    req.params.id = req.user.id;
+    next();
+};
+
+exports.getAllUsers = factory.getAll(User)
+
+exports.getUser = factory.getOne(User);
 
 exports.updateUser = catchAsync(async (req, res, next) => {
     // 1) Create error if user POSTs password data
@@ -64,6 +54,9 @@ exports.deactivateUser = catchAsync(async (req, res, next) => {
     })
 })
 
+// IMPORTED UPDATE FUNCTION BY FACTORY HANDLER
+// !!!!! DO NOT UPDATE PASSWD WITH THIS !!!!!
+exports.forceUpdateUser = factory.updateOne(User)
 
 // IMPORTED DELETE FUNCTION BY FACTORY HANDLER
 exports.deleteUser = factory.deleteOne(User)

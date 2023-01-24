@@ -71,6 +71,12 @@ userSchema.pre(/^find/, function (next) {
     next();
 })
 
+userSchema.pre('save', function (next) {
+    if (!this.isModified('password') || this.isNew) return next();
+    this.passwordChangedAt = Date.now() - 1000;
+    next();
+});
+
 userSchema.methods.correctPassword = async function (cadidatePassword, userPassword) {
     return await bcrypt.compare(cadidatePassword, userPassword)
 }
@@ -97,11 +103,7 @@ userSchema.methods.createPasswordResetToken = function () {
     return resetToken;
 }
 
-userSchema.pre('save', function (next) {
-    if (!this.isModified('password') || this.isNew) return next();
-    this.passwordChangedAt = Date.now() - 1000;
-    next();
-});
+
 
 const User = mongoose.model('User', userSchema);
 
