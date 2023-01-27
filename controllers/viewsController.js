@@ -24,7 +24,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     // console.log(tours)
     // 3) Render tamplate using data from 1)
     res.status(200).render('tour', {
-        title: "Tour Details",
+        title: `${tour.name} tour`,
         tour
     })
 })
